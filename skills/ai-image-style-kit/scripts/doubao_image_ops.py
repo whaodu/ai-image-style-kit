@@ -321,8 +321,8 @@ def main():
             "success": False,
             "error": """用法：
   提取并保存风格：python3 scripts/doubao_image_ops.py analyze <图片路径或URL> [--name=风格名称]
-  生成图片：       python3 scripts/doubao_image_ops.py generate "<生图描述>" [--size 2K] [--watermark]
-  使用风格生图：   python3 scripts/doubao_image_ops.py use <风格编号或名称> "<生图描述>" [--size 2K] [--watermark]
+  生成图片：       python3 scripts/doubao_image_ops.py generate "<生图描述>" [--size 16:9] [--watermark]
+  使用风格生图：   python3 scripts/doubao_image_ops.py use <风格编号或名称> "<生图描述>" [--size 16:9] [--watermark]
   查看风格列表：   python3 scripts/doubao_image_ops.py list
         """
         }, ensure_ascii=False, indent=2))
@@ -373,7 +373,7 @@ def main():
             sys.exit(1)
 
         user_prompt = sys.argv[2]
-        size, watermark = "2K", True
+        size, watermark = "16:9", True
         for arg in sys.argv[3:]:
             if arg.startswith("--size="):
                 size = arg.split("=")[1]
@@ -395,7 +395,7 @@ def main():
 
         style_arg = sys.argv[2]
         user_prompt = sys.argv[3]
-        size, watermark = "2K", True
+        size, watermark = "16:9", True
         for arg in sys.argv[4:]:
             if arg.startswith("--size="):
                 size = arg.split("=")[1]
