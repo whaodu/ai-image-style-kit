@@ -423,6 +423,35 @@ def main():
             out["fused_prompt"] = fused
             print(json.dumps(out, ensure_ascii=False, indent=2))
 
+    # ── 下载图片到本地 ─────────────────────────
+    elif command == "download":
+        if len(sys.argv) < 3:
+            print(json.dumps({"success": False, "error": "请提供图片URL"}, ensure_ascii=False))
+            sys.exit(1)
+
+        image_url = sys.argv[2]
+        output_path = sys.argv[3] if len(sys.argv) > 3 else ""
+
+        from urllib.parse import urlparse
+        parsed = urlparse(image_url)
+        headers = {"User-Agent": "Mozilla/5.0"}
+        if parsed.netloc:
+            headers["Host"] = parsed.netloc
+
+        resp = requests.get(image_url, headers=headers, timeout=30)
+        if resp.status_code != 200:
+            print(json.dumps({"success": False, "error": f"下载失败 HTTP {resp.status_code}"}, ensure_ascii=False))
+            sys.exit(1)
+
+        if not output_path:
+            ext = parsed.path.split(".")[-1] if "." in parsed.path else "jpg"
+            output_path = os.path.join("/tmp", f"doubao_img_{int(time.time())}.{ext}")
+
+        with open(output_path, "wb") as f:
+            f.write(resp.content)
+
+        print(json.dumps({"success": True, "local_path": output_path}, ensure_ascii=False, indent=2))
+
     # ── 列出已保存的风格 ───────────────────────
     elif command == "list":
         records = list_styles()

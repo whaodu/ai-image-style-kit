@@ -68,7 +68,20 @@ AI：正在提炼提示词...
     原始描述：一张科技公司官网banner
     提炼后：科技感官网Banner，深蓝渐变背景，流动光效，现代简约风格
 AI：融合风格生成中...
+    图片生成完成，正在下载到本地...
+AI：发送图片给你
 ```
+
+**注意**：生成图片后必须：
+1. 用 `download` 命令下载到本地（URL 临时签名，需尽快下载）
+2. 用 `feishu_send_image.py` 脚本发送（自动调用飞书 API 上传为真正的图片消息）
+
+**发送命令**：
+```bash
+FEISHU_APP_ID=cli_a93b23a424b89cd6 FEISHU_APP_SECRET=你的secret python3 scripts/feishu_send_image.py <本地图片路径>
+```
+
+凭证存储在 `TOOLS.md`，运行时自动读取。
 
 ### 纯文字生成（不用风格）
 ```
