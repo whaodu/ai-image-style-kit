@@ -86,7 +86,7 @@ def send_image_message(image_key: str, token: str, receive_id: str = None) -> di
         "Content-Type": "application/json",
     }
     payload = {
-        "receive_id": receive_id or os.environ.get("FEISHU_USER_OPEN_ID", "ou_3faabba5410648e6cd64dd2d4df70b1d"),
+        "receive_id": receive_id or os.environ.get("FEISHU_USER_OPEN_ID", ""),
         "msg_type": "image",
         "content": json.dumps({"image_key": image_key})
     }
@@ -109,13 +109,14 @@ def main():
 
     source = sys.argv[1]
     token = get_token(sys.argv[2] if len(sys.argv) > 2 else None)
+    receive_id = os.environ.get("FEISHU_USER_OPEN_ID", "")
 
     print(f"📥 下载图片: {source[:80]}...")
     image_data = download_image(source)
     print(f"📤 上传图片到飞书...")
     image_key = upload_to_feishu(image_data, "image.jpg", token)
     print(f"📨 发送图片消息...")
-    result = send_image_message(image_key, token)
+    result = send_image_message(image_key, token, receive_id)
     print(json.dumps({"success": True, "image_key": image_key, "result": result}, ensure_ascii=False, indent=2))
 
 

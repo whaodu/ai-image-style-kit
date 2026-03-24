@@ -78,8 +78,10 @@ AI：发送图片给你
 
 **发送命令**：
 ```bash
-FEISHU_APP_ID=cli_a93b23a424b89cd6 FEISHU_APP_SECRET=你的secret python3 scripts/feishu_send_image.py <本地图片路径>
+FEISHU_APP_ID=cli_a93b235b9638dcd9 FEISHU_APP_SECRET=qbaKxKfJoSNGwCfDzCG5hdm8iOpvi80N FEISHU_USER_OPEN_ID=用户的open_id python3 scripts/feishu_send_image.py <本地图片路径>
 ```
+
+`FEISHU_USER_OPEN_ID` 可从会话元数据中获取（sender_id）。
 
 凭证存储在 `TOOLS.md`，运行时自动读取。
 
