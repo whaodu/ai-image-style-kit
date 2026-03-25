@@ -198,9 +198,9 @@ def analyze_style(image_path_or_url: str, prompt: Optional[str] = None) -> dict:
 def generate_image(prompt: str, size: str = "16:9", watermark: bool = False) -> dict:
     api_key = get_ark_api_key()
     # 标准化 size：
-    # - 16:9 / 4:3 等比例 -> 透传
-    # - WIDTHxHEIGHT 像素 -> 透传
+    # - WIDTHxHEIGHT 像素 -> 直接透传
     # - 1k/2k/3k/4k -> 小写规范化
+    # - 16:9 / 4:3 / 1:1 等比例 -> 转换为满足 API 最低像素要求的像素尺寸
     normalized = size.strip()
     lower = normalized.lower()
     if lower in ("1k", "2k", "3k", "4k"):
@@ -208,6 +208,18 @@ def generate_image(prompt: str, size: str = "16:9", watermark: bool = False) -> 
     elif "x" not in normalized and ":" not in normalized:
         # 纯数字结尾如 "2K" -> 小写
         normalized = lower.rstrip("k") + "k"
+    elif ":" in normalized:
+        # 16:9 / 4:3 / 1:1 等比例 -> 转换为满足 API 最低像素（3686400）的像素尺寸
+        w, h = map(float, normalized.split(":"))
+        ratio = w / h
+        MIN_PIXELS = 3686400
+        x = (MIN_PIXELS / (ratio * h * h)) ** 0.5
+        px_w = int(ratio * x * h)
+        px_h = int(x * h)
+        # 向上取整到能被 16 整除
+        px_w = (px_w + 15) // 16 * 16
+        px_h = (px_h + 15) // 16 * 16
+        normalized = f"{px_w}x{px_h}"
 
     payload = {
         "model": DEFAULT_IMAGE_MODEL,
