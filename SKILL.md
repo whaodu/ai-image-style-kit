@@ -80,18 +80,18 @@ AI：正在提炼提示词...
 AI：融合风格生成中...
 ```
 
-**注意**：生成图片后必须：
-1. 用 `download` 命令下载到本地（URL 临时签名，需尽快下载）
-2. 用 `feishu_send_image.py` 脚本发送（自动调用飞书 API 上传为真正的图片消息）
+**注意**：生成图片后：
+1. 下载到本地（URL 临时签名，需尽快下载）
+2. （可选）如需发送到飞书对话，用 `feishu_send_image.py` 脚本上传
 
-**发送命令**：
+**发送命令**（需配置飞书环境变量 `FEISHU_APP_ID` / `FEISHU_APP_SECRET`）：
 ```bash
-FEISHU_APP_ID=cli_a93b235b9638dcd9 FEISHU_APP_SECRET=qbaKxKfJoSNGwCfDzCG5hdm8iOpvi80N FEISHU_USER_OPEN_ID=用户的open_id python3 scripts/feishu_send_image.py <本地图片路径>
+FEISHU_USER_OPEN_ID=用户的open_id python3 scripts/feishu_send_image.py <本地图片路径>
 ```
 
 `FEISHU_USER_OPEN_ID` 可从会话元数据中获取（sender_id）。
 
-凭证存储在 `TOOLS.md`，运行时自动读取。
+> 飞书发送为可选功能，不配置则仅生成图片，不做发送。
 
 ### 纯文字生成（不用风格）
 ```
