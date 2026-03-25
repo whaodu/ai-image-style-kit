@@ -139,10 +139,10 @@ AI：融合风格生成中...
 
 **发送命令**（需配置飞书环境变量 `FEISHU_APP_ID` / `FEISHU_APP_SECRET`）：
 ```bash
-FEISHU_USER_OPEN_ID=用户的open_id python3 scripts/feishu_send_image.py <本地图片路径>
+python3 scripts/feishu_send_image.py <本地图片路径>
 ```
 
-`FEISHU_USER_OPEN_ID` 可从会话元数据中获取（sender_id）。
+> `FEISHU_USER_OPEN_ID` 由 AI 自动从当前会话元数据（sender_id）中提取，脚本内部处理，无需用户手动提供。
 
 > 飞书发送为可选功能，不配置则仅生成图片，不做发送。
 
