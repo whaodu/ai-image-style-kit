@@ -195,7 +195,7 @@ def analyze_style(image_path_or_url: str, prompt: Optional[str] = None) -> dict:
         return {"success": False, "error": f"分析失败: {str(e)}"}
 
 
-def generate_image(prompt: str, size: str = "16:9", watermark: bool = True) -> dict:
+def generate_image(prompt: str, size: str = "16:9", watermark: bool = False) -> dict:
     api_key = get_ark_api_key()
     # 标准化 size：
     # - 16:9 / 4:3 等比例 -> 透传
@@ -321,8 +321,8 @@ def main():
             "success": False,
             "error": """用法：
   提取并保存风格：python3 scripts/doubao_image_ops.py analyze <图片路径或URL> [--name=风格名称]
-  生成图片：       python3 scripts/doubao_image_ops.py generate "<生图描述>" [--size 16:9] [--watermark]
-  使用风格生图：   python3 scripts/doubao_image_ops.py use <风格编号或名称> "<生图描述>" [--size 16:9] [--watermark]
+  生成图片：       python3 scripts/doubao_image_ops.py generate "<生图描述>" [--size 16:9]
+  使用风格生图：   python3 scripts/doubao_image_ops.py use <风格编号或名称> "<生图描述>" [--size 16:9]
   查看风格列表：   python3 scripts/doubao_image_ops.py list
         """
         }, ensure_ascii=False, indent=2))
@@ -373,14 +373,12 @@ def main():
             sys.exit(1)
 
         user_prompt = sys.argv[2]
-        size, watermark = "16:9", True
+        size = "16:9"
         for arg in sys.argv[3:]:
             if arg.startswith("--size="):
                 size = arg.split("=")[1]
-            elif arg == "--no-watermark":
-                watermark = False
 
-        result = generate_image(user_prompt, size, watermark)
+        result = generate_image(user_prompt, size)
 
         if "--format" in sys.argv or "-f" in sys.argv:
             print(format_generate_result(result))
@@ -395,12 +393,10 @@ def main():
 
         style_arg = sys.argv[2]
         user_prompt = sys.argv[3]
-        size, watermark = "16:9", True
+        size = "16:9"
         for arg in sys.argv[4:]:
             if arg.startswith("--size="):
                 size = arg.split("=")[1]
-            elif arg == "--no-watermark":
-                watermark = False
 
         style_res = load_style(style_arg)
         if not style_res["success"]:
@@ -410,7 +406,7 @@ def main():
         record = style_res["record"]
         fused = fuse_prompt(user_prompt, record["style_description"])
 
-        result = generate_image(fused, size, watermark)
+        result = generate_image(fused, size)
 
         if "--format" in sys.argv or "-f" in sys.argv:
             out_text = format_generate_result(result)
