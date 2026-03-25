@@ -47,12 +47,32 @@ description: |
 
 ## 环境配置
 
-**API Key 存储位置：** 参见 `TOOLS.md`（不写在代码里）
-```bash
-export ARK_API_KEY="你的火山引擎 ARK API Key"
+凭证统一保存在用户的 `TOOLS.md` 中，AI 读取一次后自动记住，后续无需重复配置。
+
+**首次使用判断：** AI 首次调用生图/分析功能时，如发现 `ARK_API_KEY` 未配置，应主动引导用户完成配置：
+
+```
+AI：检测到你还没有配置火山引擎 ARK API Key，配置后即可使用生图功能。
+    请前往 火山引擎控制台 → API Key 管理 创建密钥，
+    然后告诉我，我帮你写入 TOOLS.md 保存。
 ```
 
-获取方式：火山引擎控制台 → API Key 管理
+**配置项：**
+
+| 凭证 | 说明 | 获取方式 |
+|------|------|---------|
+| `ARK_API_KEY` | 必填，生图用 | 火山引擎控制台 → API Key 管理 |
+| `FEISHU_APP_ID` | 可选，发图用 | 飞书开放平台 → 应用创建 |
+| `FEISHU_APP_SECRET` | 可选，发图用 | 同上 |
+
+**配置方式：** 用户告知 API Key 后，AI 自动写入 `TOOLS.md`，格式：
+```bash
+ARK_API_KEY=你的密钥
+FEISHU_APP_ID=cli_xxx（可选）
+FEISHU_APP_SECRET=xxx（可选）
+```
+
+配置完成后 AI 确认「已保存，下次使用无需重新配置」。
 
 ## 完整工作流程
 
