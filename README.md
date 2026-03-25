@@ -36,6 +36,20 @@ export ARK_API_KEY="你的ARK-API-Key"
 
 > API Key 只用于生图，不会保存到任何外部服务。
 
+### 第三步：（推荐）配置飞书凭证
+
+配置后，生成的图片可以直接发送到飞书对话，无需手动下载转发：
+
+1. **创建飞书应用** → https://open.feishu.cn/app（本步骤可选）
+2. **在 OpenClaw 的 `TOOLS.md` 中添加**（或直接设置环境变量）：
+
+```bash
+export FEISHU_APP_ID="cli_xxx"
+export FEISHU_APP_SECRET="xxx"
+```
+
+> 如果不配置此步骤，图片生成功能不受影响，只是无法直接发送到飞书对话。
+
 ---
 
 ## 快速开始
