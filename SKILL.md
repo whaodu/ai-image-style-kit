@@ -16,12 +16,34 @@ description: |
 
 ## 存储机制
 
-风格文件保存于 `scripts/styles/style_XXX.json`，每个文件包含：
-- `id`：风格编号（自动递增）
-- `style_name`：风格名称（用户自定义，可为空）
-- `style_description`：风格描述
-- `source_image`：图片来源
-- `saved_at`：保存时间
+风格文件保存于 `scripts/styles/style_XXX.json`，由 AI 自动管理，用户无需手动操作。
+
+**保存流程：**
+1. 用户发来参考图 + 说「提取风格」
+2. AI 调用 `analyze` 命令，豆包模型分析图片风格特征
+3. 分析结果写入 `scripts/styles/style_XXX.json`，编号自动递增
+4. AI 告知用户风格已保存，可选择命名
+
+**提取流程（加载已有风格）：**
+1. 用户说「用XX风格生成图片」
+2. AI 调用 `use <名称或编号>` 命令
+3. 脚本从 `scripts/styles/style_XXX.json` 读取风格描述
+4. 风格描述与用户描述融合为最终 prompt，调用生图 API
+
+**风格文件结构：**
+```json
+{
+  "id": 1,
+  "style_name": "知识卡片",
+  "style_description": "极简手绘涂鸦风，低饱和莫兰迪色调...",
+  "source_image": "/path/to/reference.jpg",
+  "saved_at": "2026-03-24 23:13:35"
+}
+```
+
+**引用方式：**
+- 按编号：`use 3 "生图描述"`
+- 按名称：`use 知识卡片 "生图描述"`（模糊匹配）
 
 ## 环境配置
 
