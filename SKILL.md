@@ -256,9 +256,9 @@ python3 scripts/doubao_image_ops.py list
 
 - 生图模型为异步API，脚本会自动轮询直到完成（约30-90秒）
 - 图片默认带水印，可通过 `--no-watermark` 关闭
-- 支持的生图尺寸：1K, 2K, 4K（默认2K）
+- 支持的生图尺寸：1K/2K/3K/4K、16:9/4:3/1:1 等比例（自动转换为像素值）、WIDTHxHEIGHT 像素尺寸（默认 16:9，即 2560×1440）
 - API Base URL：https://ark.cn-beijing.volces.com/api/v3
 
 ---
 
-*doubao-image-ops v2.4 - 2026-03-25*
+*doubao-image-ops v2.5 - 2026-03-25*
